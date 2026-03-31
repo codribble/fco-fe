@@ -6,7 +6,7 @@ export const getPlayerId = (id) => {
    */
   const spid = id; // full id
   const sid = String(id).slice(0, 3); // season id
-  const pid = String(id).slice(-6); // player id
+  const pid = Number(String(id).slice(-6)); // player id
 
   return {
     spid,
