@@ -1,0 +1,37 @@
+.playerCard {
+  display: flex;
+  gap: 30px;
+}
+
+.faceon {
+  width: 80px;
+}
+
+.faceonBig {
+  width: 150px;
+}
+
+.faceon img {
+  width: 100%;
+  height: auto;
+}
+
+.playerInfo {
+}
+
+.playerName {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  color: white;
+}
+
+.season {
+  height: 1em;
+}
+
+.season img {
+  width: auto;
+  height: 100%;
+}

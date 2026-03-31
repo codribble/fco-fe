@@ -1,42 +1,51 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { getPlayerId } from "../utils/player";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getPlayerId, getPlayerThumb } from "../utils/player";
+import playerCardStyles from "../styles/player.module.css";
 
-const THUMB_URL = "https://fco.dn.nexoncdn.co.kr/live/externalAssets/common";
-
-const PlayerItem = ({ player }) => {
+const PlayerItem = ({ player, seasons }) => {
+  const navigate = useNavigate();
   const [thumbs, setThumbs] = useState(0);
   const playerId = getPlayerId(player.id);
-
-  const spid = playerId.spid;
-  const pid = playerId.pid;
   const sid = playerId.sid;
+  const season = seasons.find((s) => s.seasonId === Number(sid));
 
-  console.log(sid);
+  const thumbnails = getPlayerThumb(player.id);
 
-  const thumsUrls = [
-    `${THUMB_URL}/playersAction/p${spid}.png`,
-    `${THUMB_URL}/playersAction/p${pid}.png`,
-    `${THUMB_URL}/players/p${spid}.png`,
-    `${THUMB_URL}/players/p${pid}.png`,
-  ];
+  const handleClick = (e) => {
+    e.preventDefault();
+
+    navigate(`/player/${player.id}`, {
+      state: { name: player.name, season },
+    });
+  };
 
   return (
     <li>
-      <Link to={`/player/${player.id}`}>
-        <div>
-          {thumbs < thumsUrls.length ? (
-            <img
-              src={thumsUrls[thumbs]}
-              alt={player.name}
-              onError={() => setThumbs((prev) => prev + 1)}
-            />
-          ) : (
-            <span>No Image</span>
-          )}
+      <a href="#" onClick={handleClick}>
+        <div className={`${playerCardStyles.playerCard}`}>
+          <div className={`${playerCardStyles.faceon}`}>
+            {thumbs < thumbnails.length ? (
+              <img
+                src={thumbnails[thumbs]}
+                alt={player.name}
+                width={80}
+                onError={() => setThumbs((prev) => prev + 1)}
+              />
+            ) : (
+              <span>No Image</span>
+            )}
+          </div>
+          <div className={`${playerCardStyles.playerInfo}`}>
+            <p className={`${playerCardStyles.playerName}`}>
+              <span className={`${playerCardStyles.season}`}>
+                <img src={season?.seasonImg} alt={season?.className} />
+              </span>
+              {player.name}
+            </p>
+          </div>
         </div>
-        <p className="player-name">{player.name}</p>
-      </Link>
+      </a>
     </li>
   );
 };

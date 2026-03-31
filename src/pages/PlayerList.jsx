@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import Players from "../components/Players";
+import { useState } from "react";
+import PlayerItem from "../components/PlayerItem";
 
-const PlayerList = ({ isLoading, players }) => {
+const PlayerList = ({ loading, players, seasons }) => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(15);
   const totalPage = Math.ceil(players.length / limit);
@@ -14,10 +14,20 @@ const PlayerList = ({ isLoading, players }) => {
         <span>{players.length}명</span>
       </h2>
 
-      {isLoading ? (
+      {loading ? (
         <p>선수 목록을 불러오는 중입니다.</p>
       ) : (
-        <Players players={displayPlayers} />
+        <ul>
+          {displayPlayers.length ? (
+            displayPlayers.map((player) => {
+              return (
+                <PlayerItem key={player.id} player={player} seasons={seasons} />
+              );
+            })
+          ) : (
+            <li>등록된 선수가 없습니다.</li>
+          )}
+        </ul>
       )}
     </div>
   );
