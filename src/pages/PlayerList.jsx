@@ -1,4 +1,3 @@
-import { useState } from "react";
 import PlayerItem from "../components/PlayerItem";
 import { useSearchParams } from "react-router-dom";
 
@@ -15,8 +14,12 @@ const PlayerList = ({ loading, players, seasons }) => {
   );
   const totalPage = Math.ceil(filteredPlayers.length / PAGE_SIZE);
   const group = Math.ceil(page / GROUP_SIZE);
-  const groupStart = (group - 1) * GROUP_SIZE + 1;
+  let groupStart = (group - 1) * GROUP_SIZE + 1;
   const groupEnd = Math.min(groupStart + GROUP_SIZE - 1, totalPage);
+  if (groupEnd - groupStart + 1 < GROUP_SIZE) {
+    groupStart = Math.max(1, groupEnd - GROUP_SIZE + 1);
+  }
+
   const pages = Array.from(
     { length: groupEnd - groupStart + 1 },
     (_, i) => groupStart + i,
@@ -66,7 +69,7 @@ const PlayerList = ({ loading, players, seasons }) => {
         </button>
 
         <button
-          onClick={() => handleChangePage(page - 1)}
+          onClick={() => handleChangePage(Number(page) - 1)}
           disabled={Number(page) === 1}
         >
           &lt; <span className="sr-only">이전</span>
@@ -83,7 +86,7 @@ const PlayerList = ({ loading, players, seasons }) => {
         )}
 
         <button
-          onClick={() => handleChangePage(page + 1)}
+          onClick={() => handleChangePage(Number(page) + 1)}
           disabled={Number(page) === totalPage}
         >
           <span className="sr-only">다음</span> &gt;
