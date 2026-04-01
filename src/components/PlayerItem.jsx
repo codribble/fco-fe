@@ -1,28 +1,18 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { getPlayerId, getPlayerThumb } from "../utils/player";
 import playerCardStyles from "../styles/player.module.css";
+import { Link } from "react-router-dom";
 
 const PlayerItem = ({ player, seasons }) => {
-  const navigate = useNavigate();
   const [thumbs, setThumbs] = useState(0);
-  const playerId = getPlayerId(player.id);
-  const sid = playerId.sid;
-  const season = seasons.find((s) => s.seasonId === Number(sid));
+  const { spId, sId } = getPlayerId(player.id);
+  const season = seasons.find((s) => s.seasonId === Number(sId));
 
-  const thumbnails = getPlayerThumb(player.id);
-
-  const handleClick = (e) => {
-    e.preventDefault();
-
-    navigate(`/player/${player.id}`, {
-      state: { name: player.name, season },
-    });
-  };
+  const thumbnails = getPlayerThumb(spId);
 
   return (
     <li>
-      <a href="#" onClick={handleClick}>
+      <Link to={`/player/${spId}`}>
         <div className={`${playerCardStyles.playerCard}`}>
           <div className={`${playerCardStyles.faceon}`}>
             {thumbs < thumbnails.length ? (
@@ -45,7 +35,7 @@ const PlayerItem = ({ player, seasons }) => {
             </p>
           </div>
         </div>
-      </a>
+      </Link>
     </li>
   );
 };

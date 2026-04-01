@@ -7,6 +7,8 @@ import {
   NEXON_META_API_SEASON,
   NEXON_META_API_SPID,
 } from "./constants/nexonapi";
+import Home from "./pages/Home";
+import Header from "./components/Header";
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -52,8 +54,11 @@ const App = () => {
   }, []);
 
   return (
-    <div>
+    <>
+      <Header />
+
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/player" element={<PlayerLayout />}>
           <Route
             index
@@ -65,10 +70,13 @@ const App = () => {
               />
             }
           />
-          <Route path=":id" element={<PlayerDetail />} />
+          <Route
+            path=":id"
+            element={<PlayerDetail players={players} seasons={seasons} />}
+          />
         </Route>
       </Routes>
-    </div>
+    </>
   );
 };
 
