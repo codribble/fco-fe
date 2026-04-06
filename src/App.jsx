@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PlayerList from "./pages/PlayerList";
 import { Route, Routes } from "react-router-dom";
 import PlayerDetail from "./pages/PlayerDetail";
 import PlayerLayout from "./pages/PlayerLayout";
-import {
-  NEXON_META_API_SEASON,
-  NEXON_META_API_SPID,
-} from "./constants/nexonapi";
 import Home from "./pages/Home";
 import Header from "./components/Header";
+
+const API_URL = "http://localhost:8080/api/players";
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -18,7 +16,7 @@ const App = () => {
   useEffect(() => {
     const fetchPlayers = async () => {
       try {
-        const res = await fetch(`${NEXON_META_API_SPID}`);
+        const res = await fetch(`${API_URL}`);
         if (!res.ok) {
           console.error(`에러발생: ${res.status} ${res.statusText}`);
           throw new Error(`${res.statusText}`);
@@ -27,12 +25,13 @@ const App = () => {
         //   console.log(data);
 
         setPlayers(data);
+        setIsLoading(false);
       } catch (error) {
         console.error("선수 데이터 로딩 실패: ", error);
-      } finally {
-        setIsLoading(false);
       }
     };
+
+    console.log(players);
 
     const fetchSeasons = async () => {
       try {
@@ -50,7 +49,7 @@ const App = () => {
     };
 
     fetchPlayers();
-    fetchSeasons();
+    // fetchSeasons();
   }, []);
 
   return (

@@ -1,20 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { getPlayerId, getPlayerThumb } from "../utils/player";
 import styles from "../styles/player.module.css";
 import playerDetailStyles from "../pages/PlayerDetail.module.css";
 
 const PlayerDetail = ({ players, seasons }) => {
   const { id } = useParams();
-  const [thumbs, setThumbs] = useState(0);
-  const { pId, sId } = getPlayerId(id);
-  const thumbnails = getPlayerThumb(id);
   const player = players.find((p) => p.id === Number(id));
-  const season = seasons.find((s) => s.seasonId === Number(sId));
-
-  useEffect(() => {
-    setThumbs(0);
-  }, [id]);
+  // const season = seasons.find((s) => s.seasonId === Number(sId));
 
   const others = players.filter(
     (p) =>
@@ -34,7 +26,7 @@ const PlayerDetail = ({ players, seasons }) => {
 
       <div className={`${styles.playerCard}`}>
         <div className={`${styles.faceon} ${styles.faceonBig}`}>
-          {thumbs < thumbnails.length ? (
+          {/* {thumbs < thumbnails.length ? (
             <img
               src={thumbnails[thumbs]}
               alt={player?.name}
@@ -43,13 +35,13 @@ const PlayerDetail = ({ players, seasons }) => {
             />
           ) : (
             <span>No Image</span>
-          )}
+          )} */}
         </div>
 
         <div className={`${styles.playerInfo}`}>
           <h2 className={`${styles.playerName}`}>
             <span className={`${styles.season}`}>
-              <img src={season?.seasonImg} alt={season?.className} />
+              {/* <img src={season?.seasonImg} alt={season?.className} /> */}
             </span>
             {player?.name}
           </h2>

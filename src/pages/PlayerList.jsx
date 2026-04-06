@@ -26,7 +26,7 @@ const PlayerList = ({ loading, players, seasons }) => {
 
       <div>
         {loading ? (
-          <p>선수 목록을 불러오는 중입니다.</p>
+          <p>선수 목록을 불러오는 중...</p>
         ) : (
           <ul>
             {totalCount ? (
